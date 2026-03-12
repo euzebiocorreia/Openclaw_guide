@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw 🦞 — Guia Completo de Instalação</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0500;
+    --surface: #120b00;
+    --surface2: #1c1000;
+    --surface3: #261600;
+    --border: #3d2200;
+    --text: #f5e8d0;
+    --text-muted: #a08060;
+    --text-dim: #5a3c1a;
+    --claw: #ff6b1a;
+    --claw-glow: #ff6b1a40;
+    --claw-dim: #cc4d00;
+    --amber: #ffaa33;
+    --gold: #ffd166;
+    --green: #4ade80;
+    --cyan: #22d3ee;
+    --blue: #60a5fa;
+    --purple: #c084fc;
+    --red: #f87171;
+    --pink: #fb7185;
+    --node: #68d391;
+    --gemini: #4285f4;
+    --claude: #da7756;
+    --telegram: #229ed9;
+    --step-colors: #ff6b1a, #ffaa33, #ffd166, #4ade80, #22d3ee, #60a5fa, #c084fc;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--claw); border-radius: 3px; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, #ff6b1a18 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, #ffaa3308 0%, transparent 60%),
+      radial-gradient(ellipse 30% 30% at 80% 20%, #c084fc06 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.2;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 80%);
+  }
+
+  .claw-emoji {
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin-bottom: 1rem;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px var(--claw));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge .live-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    animation: blink 1.5s ease infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.15; }
+  }
+
+  .hero h1 {
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .name {
+    display: block;
+    background: linear-gradient(135deg, var(--claw) 0%, var(--amber) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero h1 .sub {
+    display: block;
+    font-size: 0.38em;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--text-muted);
+    -webkit-text-fill-color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .hero-desc {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--text-muted);
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 13px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .pill:hover { transform: translateY(-2px); border-color: var(--claw); }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  .hero-stat {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s 0.35s ease both;
+  }
+
+  .stat {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .stat-val {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--claw);
+    display: block;
+  }
+
+  .stat-lbl {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-scroll {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    animation: fadeUp 0.6s 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 5, 0, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--claw);
+    white-space: nowrap;
+    padding: 1rem 1.25rem 1rem 0;
+    border-right: 1px solid var(--border);
+    margin-right: 0.75rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 1rem 0.875rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+
+  .nav a:hover { color: var(--text); border-bottom-color: var(--claw); }
+  .nav .nav-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--text-dim); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── SECTION ── */
+  .section { padding: 5rem 0 3rem; border-top: 1px solid var(--border); }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+    align-items: start;
+  }
+
+  .step-badge {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    opacity: 0.6;
+  }
+
+  .section h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.05;
+  }
+
+  .section-desc { color: var(--text-muted); font-size: 1rem; margin-top: 0.4rem; }
+
+  /* ── GATEWAY DIAGRAM ── */
+  .gateway-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gateway-diagram::before {
+    content: 'ARQUITETURA';
+    position: absolute;
+    top: 12px; right: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .gw-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .gw-box {
+    background: linear-gradient(135deg, var(--claw-dim), var(--claw));
+    color: #000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 30px var(--claw-glow);
+  }
+
+  .gw-port {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    padding: 2px 10px;
+    border-radius: 4px;
+  }
+
+  .gw-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .gw-group { }
+  .gw-group-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .gw-nodes {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .gw-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .gw-node .icon { font-size: 0.9rem; }
+
+  /* ── CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem;
+    transition: all 0.2s;
+  }
+
+  .card:hover { transform: translateY(-3px); border-color: var(--claw); }
+  .card-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+  .card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; }
+  .card p { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 1.2rem;
+    align-items: start;
+  }
+
+  .step-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .step-dot {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .step-line {
+    width: 2px;
+    min-height: 20px;
+    flex: 1;
+    background: var(--border);
+    margin: 4px 0;
+  }
+
+  .step-body { padding-bottom: 0.75rem; }
+  .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.45rem; }
+  .step p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+
+  /* ── CODE ── */
+  .code-block {
+    position: relative;
+    background: #050200;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0.75rem 0;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 12px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .code-dots { display: flex; gap: 5px; }
+  .code-dots span { width: 9px; height: 9px; border-radius: 50%; }
+
+  .code-copy {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .code-copy:hover {
+    background: var(--surface3);
+    color: var(--text);
+    border-color: var(--claw);
+  }
+
+  .code-content {
+    padding: 1rem 1.2rem;
+    font-size: 0.83rem;
+    line-height: 1.75;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .code-content .prompt { color: var(--claw); user-select: none; }
+  .code-content .comment { color: var(--text-dim); font-style: italic; }
+  .code-content .string { color: var(--amber); }
+  .code-content .key { color: var(--blue); }
+  .code-content .val { color: var(--cyan); }
+  .code-content .ok { color: var(--green); }
+  .code-content .warn { color: var(--amber); }
+  .code-content .err { color: var(--red); }
+
+  /* ── ALERTS ── */
+  .alert {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    font-size: 0.875rem;
+  }
+
+  .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .alert-body { flex: 1; }
+  .alert-body strong { display: block; margin-bottom: 3px; font-size: 0.88rem; }
+
+  .alert-info { background: #60a5fa0d; border: 1px solid #60a5fa30; }
+  .alert-info .alert-body { color: var(--text-muted); }
+  .alert-info .alert-body strong { color: var(--blue); }
+
+  .alert-warn { background: #ffaa330d; border: 1px solid #ffaa3330; }
+  .alert-warn .alert-body { color: var(--text-muted); }
+  .alert-warn .alert-body strong { color: var(--amber); }
+
+  .alert-ok { background: #4ade800d; border: 1px solid #4ade8030; }
+  .alert-ok .alert-body { color: var(--text-muted); }
+  .alert-ok .alert-body strong { color: var(--green); }
+
+  .alert-claw { background: #ff6b1a0d; border: 1px solid #ff6b1a30; }
+  .alert-claw .alert-body { color: var(--text-muted); }
+  .alert-claw .alert-body strong { color: var(--claw); }
+
+  /* ── AI TABS ── */
+  .ai-tabs-header {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  .ai-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--surface2);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    bottom: -1px;
+  }
+
+  .ai-tab.active-gemini { background: var(--surface); border-color: var(--gemini); color: #7cb9ff; }
+  .ai-tab.active-claude { background: var(--surface); border-color: var(--claude); color: #f0a890; }
+
+  .ai-tab-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0 10px 10px 10px;
+    padding: 1.5rem;
+    display: none;
+  }
+
+  .ai-tab-content.active { display: block; }
+  .ai-tab-content.gemini-content { border-color: var(--gemini); }
+  .ai-tab-content.claude-content { border-color: var(--claude); }
+
+  /* ── COMPARE ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  .compare-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .compare-card-head {
+    padding: 1rem 1.2rem;
+    font-weight: 700;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-card-body { padding: 1rem 1.2rem; }
+
+  .compare-card-body ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+  .compare-card-body li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .compare-card-body li::before { content: '→'; color: var(--claw); flex-shrink: 0; }
+
+  /* ── FILE TREE ── */
+  .file-tree {
+    background: #050200;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 2;
+    margin: 1rem 0;
+  }
+
+  .file-tree .dir { color: var(--claw); font-weight: 600; }
+  .file-tree .file { color: var(--text-muted); }
+  .file-tree .file.json { color: var(--amber); }
+  .file-tree .file.md { color: var(--cyan); }
+  .file-tree .file.js { color: var(--gold); }
+  .file-tree .comment { color: var(--text-dim); font-style: italic; }
+
+  /* ── CHECKLIST ── */
+  .checklist { display: flex; flex-direction: column; gap: 9px; margin: 1.5rem 0; }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 15px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .check-item:hover { border-color: var(--green); }
+  .check-item input[type="checkbox"] { display: none; }
+
+  .check-box {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 0.7rem;
+  }
+
+  .check-item input:checked ~ .check-text { text-decoration: line-through; opacity: 0.45; }
+  .check-item input:checked + .check-box { background: var(--green); border-color: var(--green); color: #000; }
+  .check-item input:checked + .check-box::after { content: '✓'; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 1rem 0; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+  th {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  td { border-bottom: 1px solid var(--border); padding: 10px 14px; color: var(--text-muted); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  td code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    background: var(--surface2);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── SUBSECTION ── */
+  .subsection { margin: 2rem 0; }
+
+  .subsection h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── CHIP / INLINE ── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78em;
+    color: var(--amber);
+    vertical-align: middle;
+  }
+
+  /* ── DIFFERENCE NANOBOT ── */
+  .diff-banner {
+    background: linear-gradient(135deg, var(--surface2), var(--surface3));
+    border: 1px solid var(--claw);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .diff-banner::before {
+    content: 'VS NANOBOT';
+    position: absolute;
+    top: 12px; right: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--claw);
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+  }
+
+  .diff-banner h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--claw); }
+
+  .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 560px) { .diff-grid { grid-template-columns: 1fr; } }
+
+  .diff-col { }
+  .diff-col-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .diff-col ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .diff-col li { font-size: 0.83rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 6px; }
+  .diff-col li::before { flex-shrink: 0; margin-top: 1px; }
+  .diff-nano li::before { content: '○'; color: var(--text-dim); }
+  .diff-claw li::before { content: '🦞'; font-size: 0.7rem; }
+
+  /* ── CHANNEL GRID ── */
+  .channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin: 1rem 0;
+  }
+
+  .channel-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .channel-tag:hover { border-color: var(--claw); color: var(--text); }
+  .channel-tag.highlight { border-color: var(--telegram); color: var(--text); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  footer .foot-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--claw);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  footer p { font-size: 0.82rem; color: var(--text-dim); }
+
+  @media (max-width: 700px) {
+    .section-header { grid-template-columns: 1fr; }
+    .step-badge { display: none; }
+    .nav a span:not(.nav-num) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <span class="claw-emoji">🦞</span>
+  <div class="hero-badge"><span class="live-dot"></span> latest · Node.js 22+ · Windows WSL2 · Ubuntu 2025</div>
+  <h1>
+    <span class="name">OpenClaw</span>
+    <span class="sub">guia completo de instalação e configuração</span>
+  </h1>
+  <p class="hero-desc">Do zero ao seu agente pessoal de IA rodando 24/7 com Gateway, Telegram integrado e modelos Gemini ou Claude.</p>
+  <div class="hero-pills">
+    <div class="pill"><span class="dot" style="background:#0078d4"></span> Windows 11</div>
+    <div class="pill"><span class="dot" style="background:#e95420"></span> WSL2 + Ubuntu</div>
+    <div class="pill"><span class="dot" style="background:#68d391"></span> Node.js 22+</div>
+    <div class="pill"><span class="dot" style="background:#4285f4"></span> Gemini</div>
+    <div class="pill"><span class="dot" style="background:#da7756"></span> Claude</div>
+    <div class="pill"><span class="dot" style="background:#229ed9"></span> Telegram</div>
+  </div>
+  <div class="hero-stat">
+    <div class="stat"><span class="stat-val">300k+</span><span class="stat-lbl">GitHub ⭐</span></div>
+    <div class="stat"><span class="stat-val">~45min</span><span class="stat-lbl">Setup</span></div>
+    <div class="stat"><span class="stat-val">20+</span><span class="stat-lbl">Canais</span></div>
+    <div class="stat"><span class="stat-val">24/7</span><span class="stat-lbl">Daemon</span></div>
+  </div>
+  <div class="hero-scroll">↓ role para começar</div>
+</section>
+
+<!-- ══ NAV ══ -->
+<nav class="nav">
+  <a class="nav-logo" href="#">🦞 openclaw</a>
+  <a href="#intro"><span class="nav-num">00</span> <span>O que é</span></a>
+  <a href="#prereqs"><span class="nav-num">01</span> <span>Pré-req</span></a>
+  <a href="#wsl"><span class="nav-num">02</span> <span>WSL2</span></a>
+  <a href="#node"><span class="nav-num">03</span> <span>Node.js</span></a>
+  <a href="#install"><span class="nav-num">04</span> <span>OpenClaw</span></a>
+  <a href="#ai"><span class="nav-num">05</span> <span>IA</span></a>
+  <a href="#telegram"><span class="nav-num">06</span> <span>Telegram</span></a>
+  <a href="#onboard"><span class="nav-num">07</span> <span>Onboard</span></a>
+  <a href="#agent"><span class="nav-num">08</span> <span>Agente</span></a>
+  <a href="#run"><span class="nav-num">09</span> <span>Executar</span></a>
+</nav>
+
+<!-- ══ INTRO ══ -->
+<section class="section" id="intro">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--claw);color:var(--claw)">★</div>
+      <div>
+        <div class="section-tag" style="color:var(--claw)">Introdução</div>
+        <h2>O que é o OpenClaw?</h2>
+        <p class="section-desc">O agente de IA pessoal mais popular de 2026 — local, hackável e poderoso.</p>
+      </div>
+    </div>
+
+    <div class="gateway-diagram">
+      <div class="gw-center">
+        <div class="gw-box">🦞 GATEWAY (openclaw)</div>
+        <div class="gw-port">ws://127.0.0.1:18789 — plano de controle central</div>
+      </div>
+      <div class="gw-rows">
+        <div class="gw-group">
+          <div class="gw-group-title">📥 Canais de entrada</div>
+          <div class="gw-nodes">
+            <div class="gw-node"><span class="icon">💬</span> Telegram</div>
+            <div class="gw-node"><span class="icon">📱</span> WhatsApp</div>
+            <div class="gw-node"><span class="icon">💼</span> Slack / Discord</div>
+            <div class="gw-node" style="color:var(--text-dim);font-size:.75rem">+ 15 outros canais</div>
+          </div>
+        </div>
+        <div class="gw-group">
+          <div class="gw-group-title">🔧 Capacidades do agente</div>
+          <div class="gw-nodes">
+            <div class="gw-node"><span class="icon">🧠</span> LLM (Gemini / Claude)</div>
+            <div class="gw-node"><span class="icon">🛠️</span> Skills (ClawHub)</div>
+            <div class="gw-node"><span class="icon">💾</span> Memória persistente</div>
+            <div class="gw-node"><span class="icon">⏰</span> Tarefas agendadas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-banner">
+      <h3>⚡ OpenClaw vs Nanobot — principais diferenças</h3>
+      <div class="diff-grid">
+        <div class="diff-col diff-nano">
+          <div class="diff-col-title" style="color:var(--text-dim)">Nanobot Husk</div>
+          <ul>
+            <li>Python 3.10+</li>
+            <li>Instalação via pip</li>
+            <li>Config em YAML</li>
+            <li>Telegram nativo</li>
+            <li>Framework simples e leve</li>
+            <li>Prompt system via .md</li>
+          </ul>
+        </div>
+        <div class="diff-col diff-claw">
+          <div class="diff-col-title" style="color:var(--claw)">OpenClaw</div>
+          <ul>
+            <li>Node.js 22+</li>
+            <li>Instalação via npm global</li>
+            <li>Config em JSON (~/.openclaw/)</li>
+            <li>20+ canais (Telegram, WhatsApp…)</li>
+            <li>Gateway sempre rodando (daemon)</li>
+            <li>Wizard <code style="font-family:monospace;color:var(--amber)">openclaw onboard</code></li>
+            <li>Skills auto-instalaveis (ClawHub)</li>
+            <li>Multi-agente com SOUL.md</li>
+            <li>300k+ estrelas no GitHub 🚀</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>Gateway local</h3>
+        <p>Roda no seu PC como daemon systemd. Não precisa de servidor externo — você é o dono dos dados.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>Multi-canal</h3>
+        <p>Telegram, WhatsApp, Slack, Discord, iMessage, Signal e mais de 15 outros canais simultâneos.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛠️</div>
+        <h3>Skills auto-instaláveis</h3>
+        <p>Diga ao agente o que quer. Ele busca e instala a skill certa pelo ClawHub automaticamente.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⏰</div>
+        <h3>Proativo & agendado</h3>
+        <p>O agente age por conta própria a cada 30min, agenda tarefas e trabalha enquanto você dorme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRÉ-REQUISITOS ══ -->
+<section class="section" id="prereqs">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--claw);color:var(--claw)">01</div>
+      <div>
+        <div class="section-tag" style="color:var(--claw)">Passo 1</div>
+        <h2>Pré-requisitos</h2>
+        <p class="section-desc">Verifique se seu Windows está preparado.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">ℹ️</div>
+      <div class="alert-body">
+        <strong>Requisitos mínimos</strong>
+        Windows 10 v2004 (build 19041+) ou Windows 11. Processador 64-bit. Virtualização habilitada na BIOS.
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="compare-card-head">📦 O que você vai instalar</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>WSL2 (Windows Subsystem for Linux)</li>
+            <li>Ubuntu 24.04 LTS</li>
+            <li>Node.js 22 LTS (via nvm)</li>
+            <li>OpenClaw (npm global)</li>
+            <li>API Key: Gemini ou Claude</li>
+            <li>Bot Token do Telegram</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card-head">⏱ Tempo estimado</div>
+        <div class="compare-card-body">
+          <ul>
+            <li>WSL2 + Ubuntu: ~15 min</li>
+            <li>Node.js via nvm: ~5 min</li>
+            <li>Instalar OpenClaw: ~3 min</li>
+            <li>Configurar IA + Telegram: ~10 min</li>
+            <li>Wizard onboard: ~10 min</li>
+            <li><strong style="color:var(--green)">Total: ~45 minutos</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>🔍 Verificar versão do Windows</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+            <span>PowerShell (Admin)</span>
+          </div>
+          <button class="code-copy" onclick="copyCode(this)">copy</button>
+        </div>
+        <div class="code-content"><span class="prompt">PS></span> winver
+<span class="comment"># Deve mostrar Windows 10 v2004+ ou Windows 11</span>
+
+<span class="comment"># Verificar se virtualização está ativa</span>
+<span class="prompt">PS></span> systeminfo | findstr /i "virtualiz"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WSL2 ══ -->
+<section class="section" id="wsl">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:#e95420;color:#e95420">02</div>
+      <div>
+        <div class="section-tag" style="color:#e95420">Passo 2</div>
+        <h2>Instalar WSL2 + Ubuntu</h2>
+        <p class="section-desc">O subsistema Linux onde o OpenClaw vai rodar.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-warn">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-body">
+        <strong>Abra o PowerShell como Administrador!</strong>
+        Clique com botão direito no menu Iniciar → Terminal (Admin). Sem permissão de admin, os comandos falham.
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:#e95420;color:#e95420">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Instalar WSL2 + Ubuntu com um comando</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>PowerShell (Admin)</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">PS></span> wsl --install -d Ubuntu-24.04
+<span class="comment"># Download ~1GB. Windows vai pedir reinicialização.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:#e95420;color:#e95420">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Reiniciar o PC e criar usuário Ubuntu</h3>
+          <p>Após reiniciar, o Ubuntu abre sozinho pedindo para criar usuário e senha Linux. Anote bem — você vai precisar para o <span class="chip">sudo</span>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:#e95420;color:#e95420">3</div>
+        </div>
+        <div class="step-body">
+          <h3>Confirmar WSL2</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>PowerShell</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">PS></span> wsl --list --verbose
+<span class="comment">#   NAME            STATE    VERSION</span>
+<span class="comment"># * Ubuntu-24.04    Running  2   ← deve ser 2!</span></div>
+          </div>
+          <div class="alert alert-ok" style="margin-top:.75rem">
+            <div class="alert-icon">✅</div>
+            <div class="alert-body"><strong>VERSION = 2 é obrigatório.</strong> Se aparecer 1, rode: <span class="chip">wsl --set-version Ubuntu-24.04 2</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NODE.JS ══ -->
+<section class="section" id="node">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--node);color:var(--node)">03</div>
+      <div>
+        <div class="section-tag" style="color:var(--node)">Passo 3</div>
+        <h2>Instalar Node.js 22+</h2>
+        <p class="section-desc">O OpenClaw roda em Node.js — diferente do Nanobot que usa Python. Usamos o nvm para gerenciar versões.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-claw">
+      <div class="alert-icon">🦞</div>
+      <div class="alert-body">
+        <strong>Por que Node.js e não Python?</strong>
+        OpenClaw é escrito em TypeScript/Node.js. É uma escolha de arquitetura que traz o Gateway WebSocket nativo e performance superior para múltiplos canais simultâneos.
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">💻</div>
+      <div class="alert-body">
+        <strong>A partir daqui, todos os comandos rodam dentro do terminal Ubuntu.</strong>
+        Abra pelo menu Iniciar ou pelo Windows Terminal (aba Ubuntu).
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--node);color:var(--node)">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Atualizar pacotes Ubuntu</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> sudo apt update && sudo apt upgrade -y</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--node);color:var(--node)">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Instalar o nvm (gerenciador de versões Node)</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+<span class="comment"># Recarregar o terminal para ativar o nvm</span>
+<span class="prompt">$</span> source ~/.bashrc</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--node);color:var(--node)">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Instalar Node.js 22 LTS</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> nvm install 22
+<span class="prompt">$</span> nvm use 22
+<span class="prompt">$</span> nvm alias default 22
+
+<span class="comment"># Verificar</span>
+<span class="prompt">$</span> node --version
+<span class="comment"># v22.x.x  ← precisa ser 22+</span>
+
+<span class="prompt">$</span> npm --version
+<span class="comment"># 10.x.x</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTALAR OPENCLAW ══ -->
+<section class="section" id="install">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--claw);color:var(--claw)">04</div>
+      <div>
+        <div class="section-tag" style="color:var(--claw)">Passo 4</div>
+        <h2>Instalar o OpenClaw</h2>
+        <p class="section-desc">Uma linha de comando instala o CLI global. Simples assim.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--claw);color:var(--claw)">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Instalar globalmente via npm</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> npm install -g openclaw@latest
+
+<span class="comment"># Verificar instalação</span>
+<span class="prompt">$</span> openclaw --version
+<span class="comment"># openclaw x.x.x</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--claw);color:var(--claw)">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Estrutura criada automaticamente</h3>
+          <p>O OpenClaw cria sua pasta de configuração em <span class="chip">~/.openclaw/</span> automaticamente no primeiro uso:</p>
+          <div class="file-tree">
+<span class="dir">~/.openclaw/</span>
+├── <span class="file json">openclaw.json</span>     <span class="comment">← config principal (API keys, canais)</span>
+├── <span class="dir">workspaces/</span>
+│   └── <span class="dir">default/</span>
+│       ├── <span class="file md">SOUL.md</span>        <span class="comment">← personalidade do agente</span>
+│       ├── <span class="file md">memory.md</span>      <span class="comment">← memória persistente</span>
+│       └── <span class="file md">todo.md</span>        <span class="comment">← lista de tarefas do agente</span>
+└── <span class="dir">skills/</span>
+    └── <span class="comment">← skills instaladas via ClawHub</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--claw);color:var(--claw)">3</div>
+        </div>
+        <div class="step-body">
+          <h3>Verificar saúde da instalação</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> openclaw doctor
+<span class="comment"># Exibe diagnóstico da instalação e possíveis problemas</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ IA ══ -->
+<section class="section" id="ai">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--purple);color:var(--purple)">05</div>
+      <div>
+        <div class="section-tag" style="color:var(--purple)">Passo 5</div>
+        <h2>Configurar o Modelo de IA</h2>
+        <p class="section-desc">Obter e configurar a chave de API — escolha Gemini (gratuito para começar) ou Claude (mais sofisticado).</p>
+      </div>
+    </div>
+
+    <div class="compare-grid" style="margin-bottom:2rem">
+      <div class="compare-card">
+        <div class="compare-card-head" style="border-bottom-color:var(--gemini)"><span style="font-size:1.1rem">🔵</span><span style="color:#7cb9ff">Google Gemini</span></div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Tier gratuito generoso</li>
+            <li>Gemini 2.5 Flash: rápido e grátis</li>
+            <li>Contexto de 1M tokens</li>
+            <li>Ótimo para começar</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-card">
+        <div class="compare-card-head" style="border-bottom-color:var(--claude)"><span style="font-size:1.1rem">🟠</span><span style="color:#f0a890">Anthropic Claude</span></div>
+        <div class="compare-card-body">
+          <ul>
+            <li>Raciocínio avançado</li>
+            <li>Excelente para escrita e análise</li>
+            <li>Menor risco de prompt-injection</li>
+            <li>Recomendado para produção</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="ai-tabs-header">
+        <div class="ai-tab active-gemini" id="tab-gemini" onclick="switchTab('gemini')">🔵 Gemini</div>
+        <div class="ai-tab" id="tab-claude" onclick="switchTab('claude')">🟠 Claude</div>
+      </div>
+
+      <div class="ai-tab-content gemini-content active" id="content-gemini">
+        <div class="steps">
+          <div class="step">
+            <div class="step-marker">
+              <div class="step-dot" style="border-color:var(--gemini);color:#7cb9ff">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h3>Acessar o Google AI Studio</h3>
+              <p>Abra <strong style="color:#7cb9ff">aistudio.google.com</strong> e faça login com sua conta Google.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-marker">
+              <div class="step-dot" style="border-color:var(--gemini);color:#7cb9ff">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h3>Gerar a API Key</h3>
+              <p>No menu lateral → <strong>"Get API Key"</strong> → <strong>"Create API Key"</strong>. Copie a chave gerada (ela só aparece uma vez).</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-marker">
+              <div class="step-dot" style="border-color:var(--gemini);color:#7cb9ff">3</div>
+            </div>
+            <div class="step-body">
+              <h3>Salvar como variável de ambiente</h3>
+              <div class="code-block">
+                <div class="code-header">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                    <span>Ubuntu Terminal</span>
+                  </div>
+                  <button class="code-copy" onclick="copyCode(this)">copy</button>
+                </div>
+                <div class="code-content"><span class="prompt">$</span> echo 'export GEMINI_API_KEY="SUA_CHAVE_AQUI"' >> ~/.bashrc
+<span class="prompt">$</span> source ~/.bashrc
+<span class="prompt">$</span> echo $GEMINI_API_KEY   <span class="comment"># deve printar a chave</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-tab-content claude-content" id="content-claude">
+        <div class="steps">
+          <div class="step">
+            <div class="step-marker">
+              <div class="step-dot" style="border-color:var(--claude);color:#f0a890">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h3>Criar conta na Anthropic</h3>
+              <p>Acesse <strong style="color:#f0a890">console.anthropic.com</strong>, crie sua conta e adicione um método de pagamento.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-marker">
+              <div class="step-dot" style="border-color:var(--claude);color:#f0a890">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-body">
+              <h3>Gerar a API Key</h3>
+              <p><strong>Settings → API Keys → Create Key</strong>. A chave começa com <span class="chip">sk-ant-...</span>. Copie imediatamente.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-marker">
+              <div class="step-dot" style="border-color:var(--claude);color:#f0a890">3</div>
+            </div>
+            <div class="step-body">
+              <h3>Salvar como variável de ambiente</h3>
+              <div class="code-block">
+                <div class="code-header">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                    <span>Ubuntu Terminal</span>
+                  </div>
+                  <button class="code-copy" onclick="copyCode(this)">copy</button>
+                </div>
+                <div class="code-content"><span class="prompt">$</span> echo 'export ANTHROPIC_API_KEY="sk-ant-SEU_TOKEN"' >> ~/.bashrc
+<span class="prompt">$</span> source ~/.bashrc
+<span class="prompt">$</span> echo $ANTHROPIC_API_KEY</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>📊 Modelos disponíveis no OpenClaw</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Modelo</th><th>Provider</th><th>Velocidade</th><th>Custo</th><th>Ideal para</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>gemini-2.5-flash</code></td><td>Google</td><td>⚡⚡⚡</td><td>Gratuito</td><td>Começar, testes</td></tr>
+            <tr><td><code>gemini-2.5-pro</code></td><td>Google</td><td>⚡⚡</td><td>Pago</td><td>Tarefas complexas</td></tr>
+            <tr><td><code>claude-haiku-4-5-20251001</code></td><td>Anthropic</td><td>⚡⚡⚡</td><td>$</td><td>Volume, econômico</td></tr>
+            <tr><td><code>claude-sonnet-4-6</code></td><td>Anthropic</td><td>⚡⚡</td><td>$$</td><td>Equilíbrio geral</td></tr>
+            <tr><td><code>claude-opus-4-6</code></td><td>Anthropic</td><td>⚡</td><td>$$$</td><td>Máxima capacidade</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TELEGRAM ══ -->
+<section class="section" id="telegram">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--telegram);color:var(--telegram)">06</div>
+      <div>
+        <div class="section-tag" style="color:var(--telegram)">Passo 6</div>
+        <h2>Criar o Bot no Telegram</h2>
+        <p class="section-desc">Obter o token que será configurado no wizard do OpenClaw.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--telegram);color:var(--telegram)">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Abrir o @BotFather no Telegram</h3>
+          <p>No Telegram, pesquise <strong style="color:var(--telegram)">@BotFather</strong> e abra a conversa.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--telegram);color:var(--telegram)">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Criar o bot</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Chat com @BotFather</span>
+              </div>
+            </div>
+            <div class="code-content"><span class="comment"># Envie:</span>
+/newbot
+
+<span class="comment"># Nome do bot (pode ter espaço):</span>
+Meu Agente OpenClaw
+
+<span class="comment"># Username (sem espaço, termina em "bot"):</span>
+meu_openclaw_bot
+
+<span class="comment"># Token recebido (guarde isso!):</span>
+<span class="string">7234567890:AAFxyz123456abcdefghijklmnopqrstuvwx</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--telegram);color:var(--telegram)">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Descobrir seu Chat ID</h3>
+          <p>Para configurar quem pode falar com o bot, você precisa do seu ID. Pesquise <strong>@userinfobot</strong> no Telegram e envie <span class="chip">/start</span>. Ele responde com seu ID numérico.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--telegram);color:var(--telegram)">4</div>
+        </div>
+        <div class="step-body">
+          <h3>Salvar o token como variável de ambiente</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> echo 'export TELEGRAM_TOKEN="7234567890:AAFxyz..."' >> ~/.bashrc
+<span class="prompt">$</span> source ~/.bashrc</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>🌐 Outros canais disponíveis (além do Telegram)</h3>
+      <div class="channel-grid">
+        <div class="channel-tag highlight">📱 Telegram</div>
+        <div class="channel-tag">💬 WhatsApp</div>
+        <div class="channel-tag">💼 Slack</div>
+        <div class="channel-tag">🎮 Discord</div>
+        <div class="channel-tag">🍎 iMessage</div>
+        <div class="channel-tag">🔒 Signal</div>
+        <div class="channel-tag">🏢 MS Teams</div>
+        <div class="channel-tag">🔷 Matrix</div>
+        <div class="channel-tag">🐦 IRC</div>
+        <div class="channel-tag">🌐 WebChat</div>
+        <div class="channel-tag">🎵 LINE</div>
+        <div class="channel-tag">📺 Twitch</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WIZARD ONBOARD ══ -->
+<section class="section" id="onboard">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--amber);color:var(--amber)">07</div>
+      <div>
+        <div class="section-tag" style="color:var(--amber)">Passo 7 — O mais importante!</div>
+        <h2>Wizard de Onboarding</h2>
+        <p class="section-desc">O OpenClaw tem um wizard interativo que configura tudo — Gateway, workspace, canais e skills.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-claw">
+      <div class="alert-icon">🦞</div>
+      <div class="alert-body">
+        <strong>Este é o grande diferencial do OpenClaw!</strong>
+        O comando <span class="chip">openclaw onboard</span> guia você passo a passo por toda a configuração de forma interativa. Não precisa editar JSON na mão.
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--amber);color:var(--amber)">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Executar o wizard com instalação do daemon</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> openclaw onboard --install-daemon
+<span class="comment"># --install-daemon instala o Gateway como serviço systemd</span>
+<span class="comment"># Ele vai iniciar automaticamente ao ligar o WSL</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--amber);color:var(--amber)">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Seguir as etapas do wizard</h3>
+          <p>O wizard vai perguntar interativamente:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Wizard interativo</span>
+              </div>
+            </div>
+            <div class="code-content"><span class="ok">?</span> Qual provedor de IA você quer usar?
+  <span class="string">❯ Google Gemini</span>
+    Anthropic Claude
+    OpenAI
+    Ollama (local)
+
+<span class="ok">?</span> Cole sua API Key: <span class="string">AIzaSy...</span>
+
+<span class="ok">?</span> Qual modelo padrão?
+  <span class="string">❯ gemini-2.5-flash</span>
+    gemini-2.5-pro
+
+<span class="ok">?</span> Configurar Telegram? <span class="string">(Y/n)</span>
+<span class="ok">?</span> Cole o token do bot: <span class="string">7234567890:AAF...</span>
+<span class="ok">?</span> Seu Chat ID (allowFrom): <span class="string">123456789</span>
+
+<span class="ok">✓</span> Gateway configurado!
+<span class="ok">✓</span> Daemon systemd instalado e ativado!
+<span class="ok">✓</span> Canal Telegram conectado!</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--amber);color:var(--amber)">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Verificar o config gerado</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>~/.openclaw/openclaw.json (exemplo)</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content">{
+  <span class="key">"model"</span>: {
+    <span class="key">"provider"</span>: <span class="string">"gemini"</span>,
+    <span class="key">"name"</span>: <span class="string">"gemini-2.5-flash"</span>,
+    <span class="key">"apiKey"</span>: <span class="string">"${GEMINI_API_KEY}"</span>
+  },
+  <span class="key">"channels"</span>: {
+    <span class="key">"telegram"</span>: {
+      <span class="key">"token"</span>: <span class="string">"${TELEGRAM_TOKEN}"</span>,
+      <span class="key">"allowFrom"</span>: [<span class="string">"123456789"</span>]
+    }
+  },
+  <span class="key">"memory"</span>: { <span class="key">"enabled"</span>: <span class="val">true</span> },
+  <span class="key">"heartbeat"</span>: { <span class="key">"intervalMinutes"</span>: <span class="val">30</span> }
+}</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--amber);color:var(--amber)">4</div>
+        </div>
+        <div class="step-body">
+          <h3>Auditoria de segurança</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="comment"># Recomendado antes de expor o Gateway à rede</span>
+<span class="prompt">$</span> openclaw security audit --deep</div>
+          </div>
+          <div class="alert alert-warn" style="margin-top:.75rem">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-body">
+              <strong>OpenClaw tem poder real!</strong>
+              Ele acessa arquivos, navega na web, executa código. Sempre revise skills de terceiros antes de instalar e rode o audit antes de expor o gateway externamente.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CRIAR AGENTE (SOUL.md) ══ -->
+<section class="section" id="agent">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--cyan);color:var(--cyan)">08</div>
+      <div>
+        <div class="section-tag" style="color:var(--cyan)">Passo 8</div>
+        <h2>Personalizar o Agente</h2>
+        <p class="section-desc">O SOUL.md define a personalidade, contexto e comportamento do seu agente.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--cyan);color:var(--cyan)">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Editar o SOUL.md</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> nano ~/.openclaw/workspaces/default/SOUL.md</div>
+          </div>
+          <div class="code-block" style="margin-top:.75rem">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>SOUL.md — exemplo</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="comment"># Meu Agente Pessoal</span>
+
+Você é meu assistente pessoal de IA, sempre disponível via Telegram.
+
+<span class="comment">## Personalidade</span>
+- Direto e objetivo nas respostas
+- Proativo: avisa sobre tarefas pendentes
+- Memória de contexto entre conversas
+
+<span class="comment">## Contexto do usuário</span>
+- Nome: [seu nome]
+- Idioma: Português brasileiro
+- Fuso horário: America/Sao_Paulo
+
+<span class="comment">## Comportamento</span>
+- Ao receber uma tarefa, quebre em etapas e execute
+- Resuma ações realizadas de forma concisa
+- Use emojis com moderação</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--cyan);color:var(--cyan)">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Criar agentes adicionais (multi-agente)</h3>
+          <p>O OpenClaw suporta múltiplos agentes isolados. Cada um tem seu próprio SOUL.md e contexto:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="comment"># Criar um novo workspace/agente</span>
+<span class="prompt">$</span> mkdir -p ~/.openclaw/workspaces/jarvis
+<span class="prompt">$</span> nano ~/.openclaw/workspaces/jarvis/SOUL.md
+
+<span class="comment"># Registrar o agente</span>
+<span class="prompt">$</span> openclaw agents add jarvis</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--cyan);color:var(--cyan)">3</div>
+        </div>
+        <div class="step-body">
+          <h3>Instalar skills via ClawHub</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="comment"># Listar skills disponíveis</span>
+<span class="prompt">$</span> openclaw skills search web
+
+<span class="comment"># Instalar uma skill</span>
+<span class="prompt">$</span> openclaw skills install web-browser
+
+<span class="comment"># Listar skills instaladas</span>
+<span class="prompt">$</span> openclaw skills list
+
+<span class="comment"># Ou deixe o agente instalar sozinho!
+# No Telegram, diga: "instale uma skill para navegar na web"
+# O agente busca e instala automaticamente via ClawHub</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXECUTAR ══ -->
+<section class="section" id="run">
+  <div class="container">
+    <div class="section-header">
+      <div class="step-badge" style="border-color:var(--green);color:var(--green)">09</div>
+      <div>
+        <div class="section-tag" style="color:var(--green)">Passo Final</div>
+        <h2>Executar o Gateway!</h2>
+        <p class="section-desc">Ligar o motor. Com o daemon, o agente fica ativo 24/7 automaticamente.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--green);color:var(--green)">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Iniciar o Gateway manualmente (primeira vez)</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="prompt">$</span> openclaw start
+
+<span class="comment"># Saída esperada:</span>
+<span class="ok">✓</span> Config carregado de ~/.openclaw/openclaw.json
+<span class="ok">✓</span> Modelo: gemini-2.5-flash
+<span class="ok">✓</span> Gateway ativo: ws://127.0.0.1:18789
+<span class="ok">✓</span> Telegram conectado: @meu_openclaw_bot
+<span class="ok">✓</span> Heartbeat: a cada 30 minutos
+<span class="ok">✓</span> Agente pronto! Envie uma mensagem no Telegram.</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--green);color:var(--green)">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <h3>Gerenciar o daemon (se instalado com --install-daemon)</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Ubuntu Terminal</span>
+              </div>
+              <button class="code-copy" onclick="copyCode(this)">copy</button>
+            </div>
+            <div class="code-content"><span class="comment"># Ver status do daemon</span>
+<span class="prompt">$</span> openclaw status
+
+<span class="comment"># Parar o daemon</span>
+<span class="prompt">$</span> openclaw stop
+
+<span class="comment"># Reiniciar</span>
+<span class="prompt">$</span> openclaw restart
+
+<span class="comment"># Ver logs em tempo real</span>
+<span class="prompt">$</span> openclaw logs --follow
+
+<span class="comment"># Atualizar para a versão mais recente</span>
+<span class="prompt">$</span> sudo npm i -g openclaw@latest && openclaw restart</div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">
+          <div class="step-dot" style="border-color:var(--green);color:var(--green)">3</div>
+        </div>
+        <div class="step-body">
+          <h3>Testar no Telegram</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="code-dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></div>
+                <span>Comandos úteis no chat do Telegram</span>
+              </div>
+            </div>
+            <div class="code-content"><span class="comment"># Status do agente</span>
+/status
+
+<span class="comment"># Ver tarefas agendadas</span>
+/tasks
+
+<span class="comment"># Limpar memória da sessão</span>
+/clear
+
+<span class="comment"># Pergunta normal para o agente:</span>
+Olá! O que você consegue fazer?
+
+<span class="comment"># Instalar skill automaticamente:</span>
+Instale uma skill para verificar o clima</div>
+          </div>
+          <div class="alert alert-ok" style="margin-top:.75rem">
+            <div class="alert-icon">🎉</div>
+            <div class="alert-body"><strong>Funcionou!</strong> Seu agente OpenClaw está online, respondendo no Telegram e rodando 24/7 como daemon no WSL2.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>✅ Checklist final</h3>
+      <div class="checklist">
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">WSL2 instalado com Ubuntu 24.04 (VERSION = 2)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">Node.js 22+ instalado via nvm</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">OpenClaw instalado (<code style="font-family:monospace;color:var(--amber)">openclaw --version</code> funciona)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">API Key do Gemini ou Claude salva no .bashrc</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">Bot Telegram criado com token salvo</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">Wizard <code style="font-family:monospace;color:var(--amber)">openclaw onboard --install-daemon</code> concluído</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">SOUL.md editado com sua personalidade</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">Security audit executado (<code style="font-family:monospace;color:var(--amber)">openclaw security audit --deep</code>)</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox">
+          <div class="check-box"></div>
+          <span class="check-text">Agente respondendo no Telegram 🦞🎉</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3>🔧 Erros comuns e soluções</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Erro</th><th>Causa</th><th>Solução</th></tr></thead>
+          <tbody>
+            <tr><td><code>command not found: openclaw</code></td><td>nvm/node não no PATH</td><td>Rode <code>source ~/.bashrc</code></td></tr>
+            <tr><td><code>Engine Unsupported</code></td><td>Node abaixo de 22</td><td><code>nvm install 22 && nvm use 22</code></td></tr>
+            <tr><td><code>Invalid API key</code></td><td>Variável não carregada</td><td>Rode <code>source ~/.bashrc</code></td></tr>
+            <tr><td><code>Telegram: Unauthorized</code></td><td>Token incorreto</td><td>Verifique no @BotFather</td></tr>
+            <tr><td>Gateway não inicia</td><td>Porta 18789 em uso</td><td><code>openclaw doctor</code> para diagnóstico</td></tr>
+            <tr><td>Daemon não persiste</td><td>WSL2 suspenso</td><td>Considere VPS para 24/7 real</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="alert alert-claw" style="margin-top:2rem">
+      <div class="alert-icon">🦞</div>
+      <div class="alert-body">
+        <strong>Quer 24/7 de verdade?</strong>
+        O WSL2 pode ser suspenso quando o Windows hiberna. Para rodar o agente sem interrupções, considere um VPS como <strong>Oracle Cloud Free Tier</strong> ou <strong>Fly.io</strong> — o OpenClaw roda perfeitamente em Ubuntu na nuvem com os mesmos comandos deste guia.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="foot-logo">🦞 OpenClaw</div>
+  <p>Guia completo · Windows + WSL2 + Ubuntu · Node.js 22 · Gemini & Claude · Telegram</p>
+  <p style="margin-top:.5rem">github.com/openclaw/openclaw · docs.openclaw.ai</p>
+</footer>
+
+<script>
+function copyCode(btn) {
+  const block = btn.closest('.code-block');
+  const content = block.querySelector('.code-content').innerText
+    .replace(/^\$ /gm, '').replace(/^PS> /gm, '')
+    .replace(/^#.*\n?/gm, '').trim();
+  navigator.clipboard.writeText(content).then(() => {
+    btn.textContent = 'copied!';
+    btn.style.color = 'var(--green)';
+    btn.style.borderColor = 'var(--green)';
+    setTimeout(() => { btn.textContent = 'copy'; btn.style.color=''; btn.style.borderColor=''; }, 1800);
+  });
+}
+
+function switchTab(p) {
+  ['gemini','claude'].forEach(id => {
+    document.getElementById('content-' + id).classList.remove('active');
+    document.getElementById('tab-' + id).className = 'ai-tab';
+  });
+  document.getElementById('content-' + p).classList.add('active');
+  document.getElementById('tab-' + p).className = 'ai-tab active-' + p;
+}
+
+document.querySelectorAll('.check-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const cb = item.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+  });
+});
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(a => {
+        a.style.borderBottomColor = '';
+        a.style.color = '';
+        if (a.getAttribute('href') === '#' + id) {
+          a.style.borderBottomColor = 'var(--claw)';
+          a.style.color = 'var(--text)';
+        }
+      });
+    }
+  });
+}, { threshold: 0.35 }).observe ? sections.forEach(s => new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    navLinks.forEach(a => { a.style.borderBottomColor=''; a.style.color=''; });
+    const match = document.querySelector(`.nav a[href="#${entries[0].target.id}"]`);
+    if (match) { match.style.borderBottomColor='var(--claw)'; match.style.color='var(--text)'; }
+  }
+}, { threshold: 0.35 }).observe(s)) : null;
+</script>
+</body>
+</html>
